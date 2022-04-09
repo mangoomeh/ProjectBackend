@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x4cGkFa9RLvkvxi4BDbz3n6SYi6J0xyS8VfMQvfBKIJvmWYjogWR8kOD9+8qVs0lRWsnN9ySMirTKspO7qDraA==",
+  "dgSpecHash": "Hw2Yf93fTFxv6lmETEiwazPnF5pGBKnyTEw/dfeidzdFzOHRRpStJmNZU5/6+G13MgvHESvJfHXs6bjAU+KdBw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
+  "projectFilePath": "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\m4ng0\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\m4ng0\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

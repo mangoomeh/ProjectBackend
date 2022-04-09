@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj": {}
+    "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj": {
+    "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
+        "projectUniqueName": "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
         "projectName": "ProjectBackend",
-        "projectPath": "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
+        "projectPath": "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\ProjectBackend.csproj",
         "packagesPath": "C:\\Users\\m4ng0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\m4ng0\\Desktop\\GECO training\\ProjectBackend\\ProjectBackend\\obj\\",
+        "outputPath": "C:\\Users\\m4ng0\\Desktop\\GitHub\\ProjectBackend\\ProjectBackend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\m4ng0\\AppData\\Roaming\\NuGet\\NuGet.Config",
