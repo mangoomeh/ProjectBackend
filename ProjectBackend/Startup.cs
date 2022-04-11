@@ -31,10 +31,14 @@ namespace ProjectBackend
 
             services.AddControllers();
 
+            
+
             services.AddDbContext<BloggerContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlConnectionString"));
             });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {
