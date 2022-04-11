@@ -14,5 +14,6 @@ namespace ProjectBackend.Models
         public Role Role { get; set; }
 
         public List<Comment> Comments { get; set; }
+        public List<Blog> Blogs { get; set; }
     }
 }
