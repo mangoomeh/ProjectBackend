@@ -113,7 +113,7 @@ namespace ProjectBackend.Controllers
                     using (var fileStream = new FileStream(filepath, FileMode.Create)) {
                         file.CopyTo(fileStream);
                     }
-                        // userDtoObj.ProfileImageUrl = $"EmployeeImages/{file.FileName}";
+                    userDtoObj.ProfileImgUrl = $"EmployeeImages/{file.FileName}";
                 }   
                 
             }
