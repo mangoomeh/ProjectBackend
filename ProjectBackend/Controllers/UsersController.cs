@@ -125,7 +125,7 @@ namespace ProjectBackend.Controllers
             await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("User Added!", new { id = userObj.Id }, userObj);
+            return Ok();
         }
 
         // DELETE: api/Users/5
