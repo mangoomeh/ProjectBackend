@@ -122,6 +122,7 @@ namespace ProjectBackend.Controllers
             EncDescPassword.CreateHashPassword(userDtoObj.Password, out byte[] passwordHash, out byte[] passwordSalt);
             userObj.PasswordHash = passwordHash;
             userObj.PasswordSalt = passwordSalt;
+            userObj.CreatedTime = DateTime.Now;
             await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
 

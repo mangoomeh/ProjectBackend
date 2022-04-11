@@ -303,3 +303,4 @@ C:\Users\m4ng0\Desktop\GitHub\ProjectBackend\ProjectBackend\bin\Debug\net5.0\Sys
 C:\Users\m4ng0\Desktop\GitHub\ProjectBackend\ProjectBackend\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\m4ng0\Desktop\GitHub\ProjectBackend\ProjectBackend\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\m4ng0\Desktop\GitHub\ProjectBackend\ProjectBackend\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\m4ng0\Desktop\GitHub\ProjectBackend\ProjectBackend\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -7,6 +7,7 @@ using EmployeeManagementAPI.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ProjectBackend.Data.Context;
 using ProjectBackend.DTOs;
@@ -19,10 +20,12 @@ namespace ProjectBackend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly BloggerContext _context;
+        private readonly IConfiguration _config;
 
-        public AuthController(BloggerContext context)
+        public AuthController(BloggerContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
         private string CreateJwtToken(User user)
@@ -33,7 +36,7 @@ namespace ProjectBackend.Controllers
                 new Claim("FullName", user.FullName),
                 new Claim("Role", user.RoleId.ToString()),
             };
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("veryveryverysecure"));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:SecretKey").Value));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
                 claims: claimsList,
