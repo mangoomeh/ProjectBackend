@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using EmployeeManagementAPI.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -118,10 +119,13 @@ namespace ProjectBackend.Controllers
             }
 
             var userObj = _mapper.Map<User>(userDtoObj);
+            EncDescPassword.CreateHashPassword(userDtoObj.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            userObj.PasswordHash = passwordHash;
+            userObj.PasswordSalt = passwordSalt;
             await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = userObj.Id }, userObj);
+            return CreatedAtAction("User Added!", new { id = userObj.Id }, userObj);
         }
 
         // DELETE: api/Users/5
