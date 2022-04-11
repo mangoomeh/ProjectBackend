@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProjectBackend.Data.Context;
+using ProjectBackend.DTOs;
 using ProjectBackend.Models;
 
 namespace ProjectBackend.Controllers
@@ -15,10 +20,15 @@ namespace ProjectBackend.Controllers
     public class UsersController : ControllerBase
     {
         private readonly BloggerContext _context;
+        private readonly IMapper _mapper;
+        private IWebHostEnvironment _env;
 
-        public UsersController(BloggerContext context)
+        public UsersController(BloggerContext context,
+            IMapper mapper, IWebHostEnvironment env)
         {
             _context = context;
+            _mapper = mapper;
+            _env = env;
         }
 
         // GET: api/Users
@@ -76,12 +86,42 @@ namespace ProjectBackend.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserDTO>> PostUser()
         {
-            _context.Users.Add(user);
+            IFormFileCollection req = Request.Form.Files;
+            var files = req;
+            var userDtoString = Request.Form["UserDetails"];
+            var userDtoObj = JsonConvert.DeserializeObject<UserDTO>(userDtoString);
+            var uploads = Path.Combine(_env.WebRootPath, "UserImage");
+
+            if (userDtoObj == null)
+            {
+                return BadRequest();
+            }
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+                    var urls = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.Split(";");
+                    var filepath = Path.Combine(uploads, file.FileName);
+                    using (var fileStream = new FileStream(filepath, FileMode.Create)) {
+                        file.CopyTo(fileStream);
+                    }
+                        // userDtoObj.ProfileImageUrl = $"EmployeeImages/{file.FileName}";
+                }   
+                
+            }
+
+            var userObj = _mapper.Map<User>(userDtoObj);
+            await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = userObj.Id }, userObj);
         }
 
         // DELETE: api/Users/5
