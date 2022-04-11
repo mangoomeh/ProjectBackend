@@ -9,9 +9,11 @@ namespace ProjectBackend.Models
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
         
         // User posting this comment
         public int UserId { get; set; }
+        public User User { get; set; }
         
         // Blog for which this comment is for
         public int BlogId { get; set; }
