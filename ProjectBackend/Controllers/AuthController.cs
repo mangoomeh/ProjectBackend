@@ -36,7 +36,7 @@ namespace ProjectBackend.Controllers
                 new Claim("FullName", user.FullName),
                 new Claim("Role", user.RoleId.ToString()),
             };
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:SecretKey").Value));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("SecretKey").Value));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
                 claims: claimsList,
