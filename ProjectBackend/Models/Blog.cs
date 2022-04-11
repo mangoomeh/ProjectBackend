@@ -12,11 +12,12 @@ namespace ProjectBackend.Models
         public string Description { get; set; }
         public string BlogImg { get; set; }
         public string Author { get; set; }
-        public string AuthorImg { get; set; }
-        public string VideoUrl { get; set; }
         public DateTime PublishDate { get; set; }
         public Boolean IsVisible { get; set; }
 
         public List<Comment> Comments { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
