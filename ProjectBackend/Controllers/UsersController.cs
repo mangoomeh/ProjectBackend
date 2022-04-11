@@ -22,7 +22,7 @@ namespace ProjectBackend.Controllers
     {
         private readonly BloggerContext _context;
         private readonly IMapper _mapper;
-        private IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public UsersController(BloggerContext context,
             IMapper mapper, IWebHostEnvironment env)

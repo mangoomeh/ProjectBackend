@@ -20,6 +20,11 @@ namespace ProjectBackend.Controllers
     {
         private readonly BloggerContext _context;
 
+        public AuthController(BloggerContext context)
+        {
+            _context = context;
+        }
+
         private string CreateJwtToken(User user)
         {
             List<Claim> claimsList = new List<Claim>
@@ -67,7 +72,6 @@ namespace ProjectBackend.Controllers
                 Message = "Login Success!",
                 Token = token
             });
-
         }
     }
 }
