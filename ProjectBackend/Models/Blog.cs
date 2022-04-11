@@ -6,17 +6,19 @@ namespace ProjectBackend.Models
 {
     public class Blog
     {
-        [Key]
+        // Blog details
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string Content { get; set; }
         public string BlogImg { get; set; }
-        public string Author { get; set; }
-        public DateTime PublishDate { get; set; }
+        public DateTime PublishedDate { get; set; }
         public Boolean IsVisible { get; set; }
 
+        // Comments of this blog
         public List<Comment> Comments { get; set; }
 
+        // User who posted this blog
         public int UserId { get; set; }
         public User User { get; set; }
     }

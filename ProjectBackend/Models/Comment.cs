@@ -5,13 +5,15 @@ namespace ProjectBackend.Models
 {
     public class Comment
     {
-        [Key]
+        // Comment details
         public int Id { get; set; }
         public string Content { get; set; }
-        public string CommentedUserName { get; set; }
-        public int UserId { get; set; }
         public DateTime CreatedTime { get; set; }
-
+        
+        // User posting this comment
+        public int UserId { get; set; }
+        
+        // Blog for which this comment is for
         public int BlogId { get; set; }
         public Blog Blog { get; set; }
     }
