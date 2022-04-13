@@ -81,7 +81,11 @@ namespace ProjectBackend.Controllers
             _context.Roles.Add(role);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRole", new { id = role.Id }, role);
+            return Ok(new
+            {
+                Status = 200,
+                Message = "Role Created!"
+            });
         }
 
         // DELETE: api/Roles/5
