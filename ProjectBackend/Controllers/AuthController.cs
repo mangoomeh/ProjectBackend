@@ -30,11 +30,10 @@ namespace ProjectBackend.Controllers
 
         private string CreateJwtToken(User user)
         {
-            List<Claim> claimsList = new List<Claim>
+            List<Claim> claimsList = new()
             {
-                new Claim("Email", user.Email),
-                new Claim("FullName", user.FullName),
-                new Claim("Role", user.RoleId.ToString()),
+                new Claim("UserId", user.Id.ToString()),
+                new Claim("Role", user.Role.RoleName),
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("SecretKey").Value));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -55,7 +54,7 @@ namespace ProjectBackend.Controllers
                 return BadRequest();
             }
 
-            User user = await _context.Users.FirstOrDefaultAsync(a => a.Email == loginDto.Email);
+            User user = await _context.Users.Include(m => m.Role).FirstOrDefaultAsync(a => a.Email == loginDto.Email);
             
             if (user == null)
             {
