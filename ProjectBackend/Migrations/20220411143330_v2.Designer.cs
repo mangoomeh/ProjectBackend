@@ -10,8 +10,8 @@ using ProjectBackend.Data.Context;
 namespace ProjectBackend.Migrations
 {
     [DbContext(typeof(BloggerContext))]
-    [Migration("20220411100451_v1")]
-    partial class v1
+    [Migration("20220411143330_v2")]
+    partial class v2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace ProjectBackend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BlogImg")
+                    b.Property<string>("BlogImgUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
@@ -46,7 +46,7 @@ namespace ProjectBackend.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -75,7 +75,7 @@ namespace ProjectBackend.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -162,7 +162,7 @@ namespace ProjectBackend.Migrations
                     b.HasOne("ProjectBackend.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Blog");
