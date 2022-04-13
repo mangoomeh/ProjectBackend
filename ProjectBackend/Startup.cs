@@ -59,6 +59,15 @@ namespace ProjectBackend
                         ValidateAudience = false
                     };
                 });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +83,8 @@ namespace ProjectBackend
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("MyPolicy");
 
             app.UseRouting();
 
