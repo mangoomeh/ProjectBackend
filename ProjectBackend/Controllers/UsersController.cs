@@ -56,14 +56,53 @@ namespace ProjectBackend.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<ActionResult<UserDTO>> PutUser(int id)
         {
-            if (id != user.Id)
+            IFormFileCollection req = Request.Form.Files;
+            var files = req;
+            var userDtoString = Request.Form["UserDetails"];
+            var userDtoObj = JsonConvert.DeserializeObject<UserDTO>(userDtoString);
+            var uploads = Path.Combine(_env.WebRootPath, "UserImage");
+
+            if (userDtoObj == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var isUserExist = await _context.Users.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+            if (isUserExist == null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "User not found!"
+                });
+            }
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
+                    var urls = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.Split(";");
+                    var filepath = Path.Combine(uploads, file.FileName);
+                    using (var fileStream = new FileStream(filepath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    userDtoObj.ProfileImgUrl = $"EmployeeImages/{file.FileName}";
+                }
+
+            }
+
+            var userObj = _mapper.Map<User>(userDtoObj);
+            userObj.PasswordHash = isUserExist.PasswordHash;
+            userObj.PasswordSalt = isUserExist.PasswordSalt;
+
+            _context.Entry(userObj).State = EntityState.Modified;
 
             try
             {
@@ -81,7 +120,11 @@ namespace ProjectBackend.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new
+            {
+                Status = 200,
+                Message = "User is updated!"
+            });
         }
 
         // POST: api/Users
