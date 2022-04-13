@@ -8,6 +8,5 @@
         public string ProfileImgUrl { get; set; }
 
         public int RoleId { get; set; }
-
     }
 }

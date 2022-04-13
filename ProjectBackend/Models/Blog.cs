@@ -11,9 +11,9 @@ namespace ProjectBackend.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Content { get; set; }
-        public string BlogImg { get; set; }
+        public string? BlogImgUrl { get; set; }
         public DateTime CreatedTime { get; set; }
-        public DateTime UpdatedTime { get; set; }
+        public DateTime? UpdatedTime { get; set; }
         public Boolean IsVisible { get; set; }
 
         // Comments of this blog
