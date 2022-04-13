@@ -126,7 +126,11 @@ namespace ProjectBackend.Controllers
             await _context.Users.AddAsync(userObj);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new
+            {
+                Status = 200,
+                Message = "User is Created!"
+            });
         }
 
         // DELETE: api/Users/5
