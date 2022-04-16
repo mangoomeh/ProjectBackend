@@ -36,12 +36,30 @@ namespace ProjectBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.Include(u => u.Role).ToListAsync();
+
+            var users = await _context.Users.Include(u => u.Role).ToListAsync();
+            var mapped = _mapper.Map<List<User>, List<UserDTO>>(users);
+            return Ok(mapped);
+
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        {
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var mappedUser = _mapper.Map<UserDTO>(user);
+            return mappedUser;
+        }
+
+        // PUT: api/Users/5/changePassword
+        [HttpPut("{id}/changePassword")]
+        public async Task<ActionResult<UserDTO>> ChangePassword(int id, [FromBody] ChangePasswordDTO changePasswordObj)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -50,7 +68,17 @@ namespace ProjectBackend.Controllers
                 return NotFound();
             }
 
-            return user;
+            if (!EncDescPassword.VerifyHashPassword(changePasswordObj.oldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest();
+            }
+
+            EncDescPassword.CreateHashPassword(changePasswordObj.newPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
+            user.PasswordHash = newPasswordHash;
+            user.PasswordSalt = newPasswordSalt;
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         // PUT: api/Users/5
@@ -93,32 +121,19 @@ namespace ProjectBackend.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    userDtoObj.ProfileImgUrl = $"EmployeeImages/{file.FileName}";
-                }
-
+                    userDtoObj.ProfileImgUrl = $"UserImage/{file.FileName}";
+                } 
             }
 
             var userObj = _mapper.Map<User>(userDtoObj);
+            userObj.CreatedTime = isUserExist.CreatedTime;
             userObj.PasswordHash = isUserExist.PasswordHash;
             userObj.PasswordSalt = isUserExist.PasswordSalt;
+            userObj.Id = id;
+            userObj.RoleId = isUserExist.RoleId;
 
             _context.Entry(userObj).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return Ok(new
             {
@@ -156,7 +171,7 @@ namespace ProjectBackend.Controllers
                     using (var fileStream = new FileStream(filepath, FileMode.Create)) {
                         file.CopyTo(fileStream);
                     }
-                    userDtoObj.ProfileImgUrl = $"EmployeeImages/{file.FileName}";
+                    userDtoObj.ProfileImgUrl = $"UserImage/{file.FileName}";
                 }   
                 
             }
