@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeManagementAPI.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace ProjectBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly BloggerContext _context;
@@ -45,7 +47,7 @@ namespace ProjectBackend.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
 
@@ -54,7 +56,7 @@ namespace ProjectBackend.Controllers
                 return NotFound();
             }
             var mappedUser = _mapper.Map<UserDTO>(user);
-            return mappedUser;
+            return user;
         }
 
         // PUT: api/Users/5/changePassword
@@ -145,6 +147,7 @@ namespace ProjectBackend.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDTO>> PostUser()
         {
             IFormFileCollection req = Request.Form.Files;

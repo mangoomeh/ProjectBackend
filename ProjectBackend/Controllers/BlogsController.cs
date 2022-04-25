@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace ProjectBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BlogsController : ControllerBase
     {
         private readonly BloggerContext _context;
@@ -34,7 +36,7 @@ namespace ProjectBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
         {
-            return await _context.Blogs.Include(b => b.User).ToListAsync();
+            return await _context.Blogs.Include(b => b.User).OrderByDescending(b=> b.CreatedTime).ThenBy(b => b.Id).ToListAsync();
         }
 
         // GET: api/Blogs/5

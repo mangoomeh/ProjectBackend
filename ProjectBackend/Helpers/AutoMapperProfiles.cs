@@ -10,11 +10,11 @@ namespace ProjectBackend.Helpers
         {
             CreateMap<User, UserDTO>();
             CreateMap<Role, RoleDTO>();
-            CreateMap<Comment, CommentDTO>();
+            CreateMap<Comment, EditCommentDTO>();
             CreateMap<Blog, BlogDTO>();
             CreateMap<UserDTO, User>();
             CreateMap<RoleDTO, Role>();
-            CreateMap<CommentDTO, Comment>();
+            CreateMap<EditCommentDTO, Comment>();
             CreateMap<BlogDTO, Blog>();
         }
     }
